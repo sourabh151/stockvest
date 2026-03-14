@@ -1,4 +1,8 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
+import StockCard from "@/components/StockCard";
+import { data } from "@/constants/onboardingData";
+import StockvestHeader from "@/components/StockvestHeader";
+import { Colors } from "@/constants/colors";
 
 export default function Index() {
   return (
@@ -7,9 +11,15 @@ export default function Index() {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: Colors.bgPrimary
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <StockvestHeader />
+      {
+        data.map((data) => {
+          return <StockCard data={data} key={data.name} />
+        })
+      }
     </View>
   );
 }

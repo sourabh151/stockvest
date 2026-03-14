@@ -1,9 +1,11 @@
-type dataType = {
-  image: String,
-  name: String,
-  percent: String,
+import { ImageSourcePropType } from "react-native"
+
+export type stockCardDataType = {
+  image: ImageSourcePropType,
+  name: string,
+  percent: string,
 }
-export const data: dataType[] = [
+export const data: stockCardDataType[] = [
   {
     name: 'BBCA',
     image: require('@/assets/images/bbca.png'),
