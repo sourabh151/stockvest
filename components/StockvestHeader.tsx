@@ -5,20 +5,25 @@ import { Colors } from '@/constants/colors';
 const StockvestHeader = () => {
   return (
     <View style={styles.container}>
-      <MaterialIcons style={styles.logo} name={'candlestick-chart'} />
-      <Text style={styles.stockvest}>Stockvest</Text>
-      <View style={styles.circle} />
+      <View style={styles.wrapper}>
+        <MaterialIcons style={styles.logo} name={'candlestick-chart'} />
+        <Text style={styles.stockvest}>
+          Stockvest
+        </Text>
+        <View style={styles.circle} />
+      </View>
     </View>
   )
 }
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    flexDirection: 'row',
-    gap: 10,
     alignItems: 'center',
-    position: 'relative',
-    zIndex: 2
+    zIndex: 2,
+    justifyContent: 'center',
+    backgroundColor: Colors.bgPrimary,
+    paddingVertical: 20,
+    flex: 1
   },
   logo: {
     color: Colors.textDark,
@@ -27,7 +32,7 @@ const styles = StyleSheet.create({
   },
   stockvest: {
     fontSize: 24,
-    fontWeight: 500
+    fontWeight: 500,
   },
   circle: {
     width: 30,
@@ -38,6 +43,11 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     zIndex: -1
+  },
+  wrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 10
   }
 });
 

@@ -13,7 +13,8 @@ const SafeAreaComponent = ({ children }: props) => {
       top: insets.top,
       left: insets.left,
       bottom: insets.bottom,
-      right: insets.right
+      right: insets.right,
+      flex: 1
     }}>
 
       {

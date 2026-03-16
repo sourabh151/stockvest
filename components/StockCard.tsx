@@ -4,12 +4,14 @@ import { View, Text, StyleSheet, Image } from 'react-native'
 type StockCardProps = {
   data: stockCardDataType,
   key: string,
+  top: number,
+  left: number
 }
 
-const StockCard: React.FC<StockCardProps> = ({ data }) => {
+const StockCard: React.FC<StockCardProps> = ({ data, top, left }) => {
   const profit = data.percent.charCodeAt(0) === 43
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { transform: [{ translateX: left }, { translateY: top }] }]}>
       <Image source={data.image} style={styles.image} />
       <Text style={styles.title}>{data.name}</Text>
       <Text style={[styles.percent, {
@@ -30,7 +32,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginBottom: 20,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    position: 'absolute',
   },
   image: {
     width: 40,
