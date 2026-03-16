@@ -9,8 +9,27 @@ type subtitleProps = {
   styleProp?: TextStyle
 }
 const Title: FC<subtitleProps> = ({ text, styleProp }) => {
+  const hl = text.search('<hl>') > -1 ? true : false;
+  let data: string[] = [];
+  if (hl)
+    data = text.split('<hl>')
+
+
   return (
-    <Text style={[styles.sub, styleProp]}>{text}</Text>
+    <Text style={[styles.sub, styleProp]}>
+      {
+        !hl && text
+      }
+      {
+        hl && data[0]
+      }
+      {
+        hl && <Text style={styles.highlight}>{data[1]}</Text>
+      }
+      {
+        hl && data[2]
+      }
+    </Text>
   )
 }
 
@@ -21,6 +40,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 10
   },
+  highlight: {
+    fontWeight: 500,
+    color: Colors.textDark
+  }
 });
 
 export default Title

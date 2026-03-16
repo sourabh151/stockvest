@@ -30,8 +30,11 @@ const RootLayout = () => {
 
       <Stack.Screen name='VerifyEmail' options={{
         presentation: 'formSheet',
-        sheetAllowedDetents: [0.5],
-        headerShown: false
+        sheetAllowedDetents: [0.7],
+        headerShown: false,
+        sheetInitialDetentIndex: 0,
+        sheetCornerRadius: 30,
+        sheetGrabberVisible: true
       }} />
     </Stack>
   )
