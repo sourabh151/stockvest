@@ -6,13 +6,18 @@ type ButtonProps = {
   text: string,
   key?: string,
   handlePress: () => void,
-  styleProp?: ViewStyle
+  styleProp?: ViewStyle,
+  outlineOnly?: boolean
 }
 
-const CustomButton: FC<ButtonProps> = ({ handlePress, text, styleProp }) => {
+const CustomButton: FC<ButtonProps> = ({ handlePress, text, styleProp, outlineOnly }) => {
 
   return (
-    <TouchableOpacity style={[styles.button, styleProp]} onPress={handlePress}>
+    <TouchableOpacity
+      style={[styles.button,
+        styleProp,
+      outlineOnly ? styles.outline : {}]}
+      onPress={handlePress}>
       <Text style={styles.buttonText}>
         {text}
       </Text>
@@ -37,6 +42,10 @@ const styles = StyleSheet.create({
     color: Colors.textDark,
     fontWeight: 500,
     fontSize: 18
+  },
+  outline: {
+    backgroundColor: Colors.bgPrimary,
+    borderWidth: 1
   }
 });
 

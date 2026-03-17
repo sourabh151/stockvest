@@ -2,19 +2,20 @@ import CustomButton from '@/components/CustomButton';
 import Title from '@/components/Title';
 import { Image, StyleSheet } from 'react-native'
 import Subtitle from '@/components/Subtitle'
-import { useUserStore } from '@/storage/userStorage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/colors';
+import { useLocalSearchParams } from 'expo-router/build/hooks';
 
 const VerifyEmail = () => {
+  const { userVerifyEmail } = useLocalSearchParams()
+
   const handleResend = () => console.log('resent');
-  const email = useUserStore((state) => state.email);
 
   return (
     <SafeAreaView style={styles.container}>
       <Image source={require('@/assets/images/stockvest_bg.jpg')} style={styles.bg} />
       <Title text='Verify Email' />
-      <Subtitle text={'An Email has been sent to your email <hl>' + email + '<hl>.please click on the link to verify your email.'} />
+      <Subtitle text={'An Email has been sent to your email <hl>' + userVerifyEmail + '<hl>.please click on the link to verify your email.'} />
       <CustomButton text='Resend Email' handlePress={handleResend} />
     </SafeAreaView>
   )
