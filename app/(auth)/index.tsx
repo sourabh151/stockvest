@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, Image, View } from "react-native";
 import StockCard from "@/components/StockCard";
 import { data } from "@/constants/onboardingData";
 import { Colors } from "@/constants/colors";
@@ -6,6 +6,7 @@ import { useRouter } from "expo-router";
 import Title from "@/components/Title";
 import Subtitle from "@/components/Subtitle";
 import CustomButton from "@/components/CustomButton";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
   const router = useRouter()
@@ -13,9 +14,7 @@ export default function Index() {
     router.replace('/(auth)/Login')
   }
   return (
-    <View
-      style={styles.container}
-    >
+    <SafeAreaView style={styles.container}>
       <Image source={require('@/assets/images/graph.png')} style={styles.graph} />
       <View style={styles.main}>
         <View style={styles.cardBox}>
@@ -30,9 +29,10 @@ export default function Index() {
           <CustomButton text="Let's Get Started" handlePress={handleStarted} styleProp={{ marginTop: 40 }} />
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -49,32 +49,5 @@ const styles = StyleSheet.create({
   },
   intro: {
     paddingTop: 20,
-  },
-  header: {
-    color: Colors.textDark,
-    fontSize: 24,
-    fontWeight: 700,
-    textAlign: 'center',
-  },
-  sub: {
-    color: Colors.textLight,
-    fontSize: 14,
-    textAlign: 'center',
-  },
-  button: {
-    marginTop: 50,
-    paddingVertical: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.accent,
-    borderRadius: 15
-
-  },
-  buttonText: {
-    color: Colors.textDark,
-    fontWeight: 500,
-    fontSize: 18
   }
-
 });
-

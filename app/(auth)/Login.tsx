@@ -5,6 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState<boolean>(true)
@@ -13,7 +14,7 @@ const Login = () => {
     router.push('/(auth)/ForgotPassword')
   }
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Title text={"Login"} />
       <View style={styles.inputContainer}>
         <CustomInput text={'Email'} textContentType='emailAddress' />
@@ -29,22 +30,16 @@ const Login = () => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 const styles = StyleSheet.create({
   container: {
-    padding: 30,
+    paddingHorizontal: 30,
     flex: 1,
     alignItems: 'center',
     flexDirection: 'column',
     backgroundColor: Colors.bgPrimary,
-  },
-  login: {
-    fontWeight: 700,
-    fontSize: 30,
-    color: Colors.textDark,
-    marginTop: 20
   },
   inputContainer: {
     width: '100%',
@@ -56,7 +51,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.bgSecondary,
     padding: 15,
     borderRadius: 10,
-    position: 'relative',
     fontSize: 20,
     marginBottom: 10
   },
@@ -77,8 +71,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 500
   }
-
 });
-
 
 export default Login

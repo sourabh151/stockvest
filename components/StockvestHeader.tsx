@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.bgPrimary,
     paddingVertical: 20,
-    flex: 1
+    flex: 1,
+    paddingTop: 40
   },
   logo: {
     color: Colors.textDark,
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
   wrapper: {
     display: 'flex',
     flexDirection: 'row',
-    gap: 10
+    gap: 10,
   }
 });
 

@@ -1,19 +1,22 @@
 import CustomButton from '@/components/CustomButton';
 import Title from '@/components/Title';
-import { Colors } from '@/constants/colors';
-import { View, Image, StyleSheet } from 'react-native'
+import { Image, StyleSheet } from 'react-native'
 import Subtitle from '@/components/Subtitle'
+import { useUserStore } from '@/storage/userStorage';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Colors } from '@/constants/colors';
 
 const VerifyEmail = () => {
   const handleResend = () => console.log('resent');
+  const email = useUserStore((state) => state.email);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Image source={require('@/assets/images/stockvest_bg.jpg')} style={styles.bg} />
       <Title text='Verify Email' />
-      <Subtitle text='An Email has been sent to your email <hl>jhamnaniSourabh2@gmail.com<hl>.please click on the link to verify your email.' />
+      <Subtitle text={'An Email has been sent to your email <hl>' + email + '<hl>.please click on the link to verify your email.'} />
       <CustomButton text='Resend Email' handlePress={handleResend} />
-    </View>
+    </SafeAreaView>
   )
 }
 const styles = StyleSheet.create({
@@ -22,9 +25,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     paddingHorizontal: 30,
-    backgroundColor: Colors.bgPrimary,
+    overflow: 'hidden',
     borderTopLeftRadius: 30,
-    borderTopRightRadius: 30
+    borderTopRightRadius: 30,
+    backgroundColor: Colors.bgPrimary
   },
   bg: {
     width: '100%',
@@ -33,6 +37,5 @@ const styles = StyleSheet.create({
     paddingTop: 10
   }
 });
-
 
 export default VerifyEmail

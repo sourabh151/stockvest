@@ -21,20 +21,21 @@ const RootLayout = () => {
             backgroundColor: Colors.bgPrimary,
             fontSize: 36,
             paddingHorizontal: 20,
+            paddingTop: 30
           }}
             onPress={() => props.navigation.pop()} /> : <></>}
           <StockvestHeader />
         </View>
       },
     }} >
-
       <Stack.Screen name='VerifyEmail' options={{
         presentation: 'formSheet',
         sheetAllowedDetents: [0.7],
         headerShown: false,
         sheetInitialDetentIndex: 0,
         sheetCornerRadius: 30,
-        sheetGrabberVisible: true
+        sheetGrabberVisible: true,
+        contentStyle: { backgroundColor: Colors.bgPrimary }
       }} />
     </Stack>
   )
