@@ -3,6 +3,7 @@ import CustomInput from '@/components/CustomInput';
 import Subtitle from '@/components/Subtitle';
 import Title from '@/components/Title';
 import { Colors } from '@/constants/colors';
+import { typography } from '@/constants/typography';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -25,15 +26,13 @@ const Signup = () => {
     router.push('/(auth)/Signup')
   }
   useEffect(() => {
-    if (password != repeat) {
+    if (password !== repeat) {
       setError(true)
     }
     else {
       setError(false)
     }
-    console.log(error);
-
-  }, [password, repeat])
+  }, [password, repeat, setError])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -67,7 +66,7 @@ const Signup = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 30,
+    paddingHorizontal: typography.size.xxl,
     flex: 1,
     flexDirection: 'column',
     backgroundColor: Colors.bgPrimary,
@@ -75,32 +74,32 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: '100%',
     flexDirection: 'column',
-    marginTop: 20
+    marginTop: typography.size.lg
   },
   input: {
     backgroundColor: Colors.bgSecondary,
-    padding: 15,
-    borderRadius: 10,
-    fontSize: 20,
+    paddingHorizontal: typography.size.sm,
+    borderRadius: typography.size.xs,
+    fontSize: typography.size.lg,
     borderWidth: 1,
     borderColor: 'transparent'
   },
   eye: {
-    fontSize: 20,
+    fontSize: typography.size.lg,
     color: Colors.textLight
   },
   eyeBtn: {
     position: 'absolute',
-    right: 10,
-    top: 17
+    right: typography.size.xs,
+    top: typography.size.sm
   },
   forgotBtn: {
     alignSelf: 'flex-end'
   },
   forgot: {
     color: Colors.loss,
-    fontSize: 18,
-    fontWeight: 500
+    fontSize: typography.size.md,
+    fontWeight: typography.weight.medium
   },
   error: {
     borderColor: Colors.loss

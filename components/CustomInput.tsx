@@ -1,4 +1,5 @@
 import { Colors } from '@/constants/colors'
+import { typography } from '@/constants/typography';
 import { FC } from 'react'
 import { StyleSheet, TextInput, TextInputProps } from 'react-native'
 
@@ -21,9 +22,9 @@ const CustomInput: FC<InputProps> = ({ text, style, ...otherProps }) => {
 const styles = StyleSheet.create({
   input: {
     backgroundColor: Colors.bgSecondary,
-    padding: 15,
-    borderRadius: 10,
-    fontSize: 20,
+    paddingHorizontal: typography.size.sm,
+    borderRadius: typography.size.xs,
+    fontSize: typography.size.lg,
   },
 });
 
