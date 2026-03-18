@@ -28,13 +28,12 @@ const RootLayout = () => {
         </View>
       },
     }} >
-      <Stack.Screen name='VerifyEmail' options={{
+      <Stack.Screen name='[userVerifyEmail]' options={{
         presentation: 'formSheet',
-        sheetAllowedDetents: [0.7],
+        sheetAllowedDetents: [0.5, 0.7],
         headerShown: false,
         sheetInitialDetentIndex: 0,
-        sheetCornerRadius: 30,
-        sheetGrabberVisible: true,
+        sheetCornerRadius: 300,
         contentStyle: { backgroundColor: Colors.bgPrimary }
       }} />
     </Stack>

@@ -26,9 +26,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     paddingHorizontal: 30,
-    overflow: 'hidden',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
     backgroundColor: Colors.bgPrimary
   },
   bg: {

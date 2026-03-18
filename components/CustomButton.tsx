@@ -1,16 +1,18 @@
 import { Colors } from '@/constants/colors'
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 import { Text, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native'
+
 
 type ButtonProps = {
   text: string,
   key?: string,
   handlePress: () => void,
   styleProp?: ViewStyle,
-  outlineOnly?: boolean
+  outlineOnly?: boolean,
+  children?: ReactNode
 }
 
-const CustomButton: FC<ButtonProps> = ({ handlePress, text, styleProp, outlineOnly }) => {
+const CustomButton: FC<ButtonProps> = ({ handlePress, text, styleProp, outlineOnly, children }) => {
 
   return (
     <TouchableOpacity
@@ -19,6 +21,8 @@ const CustomButton: FC<ButtonProps> = ({ handlePress, text, styleProp, outlineOn
       outlineOnly ? styles.outline : {}]}
       onPress={handlePress}>
       <Text style={styles.buttonText}>
+        {children}
+        {children && '    '}
         {text}
       </Text>
     </TouchableOpacity>
@@ -41,11 +45,12 @@ const styles = StyleSheet.create({
   buttonText: {
     color: Colors.textDark,
     fontWeight: 500,
-    fontSize: 18
+    fontSize: 18,
   },
   outline: {
     backgroundColor: Colors.bgPrimary,
-    borderWidth: 1
+    borderWidth: 2,
+    borderColor: Colors.accent
   }
 });
 

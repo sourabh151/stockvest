@@ -1,4 +1,6 @@
+import CustomButton from '@/components/CustomButton';
 import CustomInput from '@/components/CustomInput';
+import Subtitle from '@/components/Subtitle';
 import Title from '@/components/Title';
 import { Colors } from '@/constants/colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -13,6 +15,11 @@ const Login = () => {
   const handleForgot = () => {
     router.push('/(auth)/ForgotPassword')
   }
+  const handleLogin = () => { }
+  const handleRegistration = () => {
+
+    router.push('/(auth)/Signup')
+  }
   return (
     <SafeAreaView style={styles.container}>
       <Title text={"Login"} />
@@ -23,12 +30,15 @@ const Login = () => {
           <TouchableOpacity style={styles.eyeBtn} onPress={() => setShowPassword(!showPassword)}>
             <MaterialCommunityIcons name={showPassword ? "eye-outline" : "eye-lock-outline"} style={styles.eye} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.forgotBtn} >
-            <Text style={styles.forgot} onPress={handleForgot}>
-              Forgot Password?
-            </Text>
-          </TouchableOpacity>
         </View>
+        <TouchableOpacity style={styles.forgotBtn} >
+          <Text style={styles.forgot} onPress={handleForgot}>
+            Forgot Password?
+          </Text>
+        </TouchableOpacity>
+        <CustomButton text='Login' handlePress={handleLogin} styleProp={{ marginTop: 20 }} />
+        <Subtitle text="Don't have an account" styleProp={{ marginTop: 20 }} />
+        <CustomButton text='Registration' outlineOnly={true} handlePress={handleRegistration} />
       </View>
     </SafeAreaView>
   )
