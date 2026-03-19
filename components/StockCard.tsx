@@ -1,6 +1,7 @@
 import { Colors } from '@/constants/colors';
 import { stockCardDataType } from '@/constants/onboardingData';
 import { View, Text, StyleSheet, Image } from 'react-native'
+import { typography } from '@/constants/typography';
 type StockCardProps = {
   data: stockCardDataType,
   key: string,
@@ -25,29 +26,29 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.bgPrimary,
     borderRadius: 5,
     elevation: 3,
-    padding: 20,
+    padding: typography.size.lg,
     width: 100,
     height: 120,
     display: 'flex',
     flexDirection: 'column',
-    marginBottom: 20,
+    marginBottom: typography.size.lg,
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
   },
   image: {
-    width: 40,
-    height: 40,
+    width: typography.size.xxxl,
+    height: typography.size.xxxl,
     objectFit: 'contain',
     borderRadius: 100
   },
   title: {
     color: Colors.textDark,
-    fontSize: 14,
-    fontWeight: 400
+    fontSize: typography.size.sm,
+    fontWeight: typography.weight.regular
   },
   percent: {
-    fontSize: 12
+    fontSize: typography.size.xs
   }
 });
 

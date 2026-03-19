@@ -1,5 +1,6 @@
 import StockvestHeader from '@/components/StockvestHeader'
 import { Colors } from '@/constants/colors'
+import { typography } from '@/constants/typography'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Stack } from 'expo-router'
 import { View } from 'react-native'
@@ -19,9 +20,9 @@ const RootLayout = () => {
           {props.back ? <MaterialIcons name='chevron-left' style={{
             color: Colors.textDark,
             backgroundColor: Colors.bgPrimary,
-            fontSize: 36,
-            paddingHorizontal: 20,
-            paddingTop: 30
+            fontSize: typography.size.xxxl,
+            paddingHorizontal: typography.size.lg,
+            paddingTop: typography.size.xxl
           }}
             onPress={() => props.navigation.pop()} /> : <></>}
           <StockvestHeader />

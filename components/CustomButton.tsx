@@ -1,4 +1,5 @@
 import { Colors } from '@/constants/colors'
+import { typography } from '@/constants/typography'
 import { FC, ReactNode } from 'react'
 import { Text, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native'
 
@@ -36,16 +37,16 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    paddingVertical: 16,
+    paddingVertical: typography.size.sm,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.accent,
-    borderRadius: 15
+    borderRadius: typography.size.sm
   },
   buttonText: {
     color: Colors.textDark,
-    fontWeight: 500,
-    fontSize: 18,
+    fontWeight: typography.weight.medium,
+    fontSize: typography.size.md,
   },
   outline: {
     backgroundColor: Colors.bgPrimary,

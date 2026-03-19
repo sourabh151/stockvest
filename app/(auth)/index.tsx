@@ -7,6 +7,7 @@ import Title from "@/components/Title";
 import Subtitle from "@/components/Subtitle";
 import CustomButton from "@/components/CustomButton";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { typography } from "@/constants/typography";
 
 export default function Index() {
   const router = useRouter()
@@ -42,12 +43,12 @@ const styles = StyleSheet.create({
     position: 'absolute'
   },
   main: {
-    paddingHorizontal: 30
+    paddingHorizontal: typography.size.xxl
   },
   cardBox: {
     height: 360
   },
   intro: {
-    paddingTop: 20,
+    paddingTop: typography.size.lg,
   }
 });

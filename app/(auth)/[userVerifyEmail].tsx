@@ -5,6 +5,7 @@ import Subtitle from '@/components/Subtitle'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/colors';
 import { useLocalSearchParams } from 'expo-router/build/hooks';
+import { typography } from '@/constants/typography';
 
 const VerifyEmail = () => {
   const { userVerifyEmail } = useLocalSearchParams()
@@ -25,14 +26,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     flex: 1,
-    paddingHorizontal: 30,
+    paddingHorizontal: typography.size.xxl,
     backgroundColor: Colors.bgPrimary
   },
   bg: {
     width: '100%',
     height: 200,
     objectFit: 'contain',
-    paddingTop: 10
+    paddingTop: typography.size.xs
   }
 });
 

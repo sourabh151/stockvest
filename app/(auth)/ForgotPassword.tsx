@@ -7,14 +7,15 @@ import CustomButton from '@/components/CustomButton';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
+import { typography } from '@/constants/typography';
+import { isEmailValid } from '@/utils/checkEmail';
 
-const emailRegexp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState<string | undefined>();
   const router = useRouter()
   const handlePress = () => {
-    if (email && emailRegexp.test(email)) {
+    if (email && isEmailValid(email)) {
       Keyboard.dismiss()
       router.push(`/(auth)/${email}`)
     }
@@ -23,8 +24,8 @@ const ForgotPassword = () => {
     <SafeAreaView style={styles.container}>
       <Title text=' Forgot Password' />
       <Subtitle text='Insert your registered email below to receive password reset instruction' />
-      <CustomInput text='Email' textContentType='emailAddress' style={{ marginTop: 40 }} onChangeText={setEmail} />
-      <CustomButton text='Send' handlePress={handlePress} styleProp={{ marginTop: 20 }} />
+      <CustomInput text='Email' textContentType='emailAddress' style={{ marginTop: typography.size.xxxl }} onChangeText={setEmail} error={!isEmailValid(email)} />
+      <CustomButton text='Send' handlePress={handlePress} styleProp={{ marginTop: typography.size.lg }} />
     </SafeAreaView>
   )
 }
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.bgPrimary,
     flex: 1,
-    paddingHorizontal: 30
+    paddingHorizontal: typography.size.xxl
   },
 });
 

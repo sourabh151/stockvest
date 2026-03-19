@@ -1,4 +1,5 @@
 import { Colors } from '@/constants/colors'
+import { typography } from '@/constants/typography'
 import { FC } from 'react'
 import { Text, StyleSheet, TextStyle } from 'react-native'
 
@@ -15,11 +16,11 @@ const Title: FC<titleProps> = ({ text, styleProp }) => {
 
 const styles = StyleSheet.create({
   text: {
-    fontWeight: 600,
-    fontSize: 30,
+    fontWeight: typography.weight.semiBold,
+    fontSize: typography.size.xxl,
     color: Colors.textDark,
-    marginTop: 20,
-    marginBottom: 10,
+    marginTop: typography.size.xl,
+    marginBottom: typography.size.xs,
     textAlign: 'center',
   },
 

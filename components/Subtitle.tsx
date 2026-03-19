@@ -1,5 +1,6 @@
 
 import { Colors } from '@/constants/colors'
+import { typography } from '@/constants/typography'
 import { FC } from 'react'
 import { Text, StyleSheet, TextStyle } from 'react-native'
 
@@ -36,11 +37,11 @@ const Title: FC<subtitleProps> = ({ text, styleProp }) => {
 const styles = StyleSheet.create({
   sub: {
     color: Colors.textLight,
-    fontSize: 14,
+    fontSize: typography.size.sm,
     textAlign: 'center',
   },
   highlight: {
-    fontWeight: 500,
+    fontWeight: typography.weight.medium,
     color: Colors.textDark
   }
 });

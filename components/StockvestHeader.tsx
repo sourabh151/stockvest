@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Colors } from '@/constants/colors';
+import { typography } from '@/constants/typography';
 
 const StockvestHeader = () => {
   return (
@@ -22,23 +23,23 @@ const styles = StyleSheet.create({
     zIndex: 2,
     justifyContent: 'center',
     backgroundColor: Colors.bgPrimary,
-    paddingVertical: 20,
+    paddingVertical: typography.size.lg,
     flex: 1,
-    paddingTop: 40
+    paddingTop: typography.size.xxxl
   },
   logo: {
     color: Colors.textDark,
-    fontWeight: 700,
-    fontSize: 30
+    fontWeight: typography.weight.bold,
+    fontSize: typography.size.xxl
   },
   stockvest: {
-    fontSize: 24,
-    fontWeight: 500,
+    fontSize: typography.size.xl,
+    fontWeight: typography.weight.medium,
   },
   circle: {
-    width: 30,
-    height: 30,
-    borderRadius: 30,
+    width: typography.size.xxl,
+    height: typography.size.xxl,
+    borderRadius: typography.size.xxl,
     backgroundColor: Colors.accent,
     position: 'absolute',
     right: 0,
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
   wrapper: {
     display: 'flex',
     flexDirection: 'row',
-    gap: 10,
+    gap: typography.size.xs,
   }
 });
 
