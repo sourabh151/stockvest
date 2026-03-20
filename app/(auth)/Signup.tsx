@@ -23,7 +23,7 @@ const Signup = () => {
     router.dismiss()
   }
   const handleRegistration = () => {
-    router.push('/(auth)/Signup')
+    router.push('/(auth)/Otp')
   }
   useEffect(() => {
     if (password !== repeat) {
