@@ -1,9 +1,9 @@
 import { Colors } from '@/constants/colors'
-import { View, Text } from 'react-native'
-import { LineChart, lineDataItem } from 'react-native-gifted-charts'
+import { View } from 'react-native'
+import { LineChart } from 'react-native-gifted-charts'
+import { data } from '@/data'
 
 const Home = () => {
-  const data: lineDataItem[] = [{ value: 10 }, { value: 20 }, { value: 14 }, { value: 18 }, { value: 16 }, { value: 20 }, { value: 22 }, { value: 26 }, { value: 25 }, { value: 29 }, { value: 31 }, { value: 29 }, { value: 22 }, { value: 18 }, { value: 14 }, { value: 19 }, { value: 22 }, { value: 26 }, { value: 28 }, { value: 25 }, { value: 10 }, { value: 20 }, { value: 14 }, { value: 18 }, { value: 16 }, { value: 20 }, { value: 22 }, { value: 26 }, { value: 25 }, { value: 29 }, { value: 31 }, { value: 29 }, { value: 22 }, { value: 18 }, { value: 14 }, { value: 19 }, { value: 22 }, { value: 26 }, { value: 28 }, { value: 25 }, { value: 10 }, { value: 20 }, { value: 14 }, { value: 18 }, { value: 16 }, { value: 20 }, { value: 22 }, { value: 26 }, { value: 25 }, { value: 29 }, { value: 31 }, { value: 29 }, { value: 22 }, { value: 18 }, { value: 14 }, { value: 19 }, { value: 22 }, { value: 26 }, { value: 28 }, { value: 25 }, { value: 10 }, { value: 20 }, { value: 14 }, { value: 18 }, { value: 16 }, { value: 20 }, { value: 22 }, { value: 26 }, { value: 25 }, { value: 29 }, { value: 31 }, { value: 29 }, { value: 22 }, { value: 18 }, { value: 14 }, { value: 19 }, { value: 22 }, { value: 26 }, { value: 28 }, { value: 25 }, { value: 10 }, { value: 20 }, { value: 14 }, { value: 18 }, { value: 16 }, { value: 20 }, { value: 22 }, { value: 26 }, { value: 25 }, { value: 29 }, { value: 31 }, { value: 29 }, { value: 22 }, { value: 18 }, { value: 14 }, { value: 19 }, { value: 22 }, { value: 26 }, { value: 28 }, { value: 25 }, { value: 10 }, { value: 20 }, { value: 14 }, { value: 18 }, { value: 16 }, { value: 20 }, { value: 22 }, { value: 26 }, { value: 25 }, { value: 29 }, { value: 31 }, { value: 29 }, { value: 22 }, { value: 18 }, { value: 14 }, { value: 19 }, { value: 22 }, { value: 26 }, { value: 28 }, { value: 25 }]
   return (
     <View>
       <LineChart
