@@ -5,16 +5,22 @@ import { persist } from 'zustand/middleware'
 export type UserState = {
   email?: string;
   phone?: string;
+  sub?: string;
+  name?: string;
+  picture?: string;
   verified: boolean;
   // Actions
   setVerified: (verified: boolean) => void;
-  setUserInfo: (info: { email?: string; phone?: string }) => void;
+  setUserInfo: (info: { email?: string; phone?: string, sub?: string, name?: string, picture?: string }) => void;
   resetUser: () => void;
 }
 
 const initialState = {
   email: undefined,
   phone: undefined,
+  sub: undefined,
+  name: undefined,
+  picture: undefined,
   verified: false,
 }
 

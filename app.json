@@ -9,6 +9,7 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
+      "bundleIdentifier":"com.sourabhjhamnani.stockvest",
       "supportsTablet": true
     },
     "android": {
@@ -31,28 +32,29 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      [
-        "expo-dev-client",
-        {
-          "addDevMenuLauncher": true
-        }
-      ],
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
-          "dark": {
-            "backgroundColor": "#000000"
-          }
-        }
-      ],
-      "expo-secure-store",
-      "expo-local-authentication"
-    ],
+  "expo-secure-store",
+  "expo-local-authentication",
+  "expo-sqlite",
+  "expo-router",
+  [
+    "expo-dev-client",
+    { "addDevMenuLauncher": true }
+  ],
+  [
+    "@react-native-google-signin/google-signin",
+    { "iosUrlScheme": "com.googleusercontent.apps.349860239347-ir2q1so6um2s8sjv1ebv6aal631bd7tq" }
+  ],
+  [
+    "expo-splash-screen",
+    {
+      "image": "./assets/images/splash-icon.png",
+      "imageWidth": 200,
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff",
+      "dark": { "backgroundColor": "#000000" }
+    }
+  ]
+],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true

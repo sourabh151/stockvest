@@ -7,34 +7,37 @@ import { View } from 'react-native'
 
 const RootLayout = () => {
   return (
-    <Stack screenOptions={{
-      header(props) {
-        return <View style={
-          {
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            backgroundColor: Colors.bgPrimary
-          }
-        }>
-          {props.back ? <MaterialIcons name='chevron-left' style={{
-            color: Colors.textDark,
-            backgroundColor: Colors.bgPrimary,
-            fontSize: typography.size.xxxl,
-            paddingHorizontal: typography.size.lg,
-            paddingTop: typography.size.xxl
-          }}
-            onPress={() => props.navigation.pop()} /> : <></>}
-          <StockvestHeader />
-        </View>
-      },
-    }} >
+    <Stack
+      initialRouteName='index'
+      screenOptions={{
+        header(props) {
+          return <View style={
+            {
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: Colors.bgPrimary
+            }
+          }>
+            {props.back ? <MaterialIcons name='chevron-left' style={{
+              color: Colors.textDark,
+              backgroundColor: Colors.bgPrimary,
+              fontSize: typography.size.xxxl,
+              paddingHorizontal: typography.size.lg,
+              paddingTop: typography.size.xxl
+            }}
+              onPress={() => props.navigation.pop()} /> : <></>}
+            <StockvestHeader />
+          </View>
+        },
+      }} >
+      <Stack.Screen name='index' options={{ headerShown: true }} />
       <Stack.Screen name='[userVerifyEmail]' options={{
         presentation: 'formSheet',
         sheetAllowedDetents: [0.5, 0.7],
         headerShown: false,
         sheetInitialDetentIndex: 0,
-        sheetCornerRadius: 300,
+        sheetCornerRadius: 30,
         contentStyle: { backgroundColor: Colors.bgPrimary }
       }} />
     </Stack>

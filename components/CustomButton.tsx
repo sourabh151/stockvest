@@ -1,10 +1,10 @@
 import { Colors } from '@/constants/colors'
 import { typography } from '@/constants/typography'
 import { FC, ReactNode } from 'react'
-import { Text, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native'
+import { Text, StyleSheet, TouchableOpacity, ViewStyle, TouchableOpacityProps } from 'react-native'
 
 
-type ButtonProps = {
+interface ButtonProps extends TouchableOpacityProps {
   text: string,
   key?: string,
   handlePress: () => void,
@@ -13,14 +13,15 @@ type ButtonProps = {
   children?: ReactNode
 }
 
-const CustomButton: FC<ButtonProps> = ({ handlePress, text, styleProp, outlineOnly, children }) => {
+const CustomButton: FC<ButtonProps> = ({ handlePress, text, styleProp, outlineOnly, children, ...otherProps }) => {
 
   return (
     <TouchableOpacity
       style={[styles.button,
         styleProp,
       outlineOnly ? styles.outline : {}]}
-      onPress={handlePress}>
+      onPress={handlePress}
+      {...otherProps}>
       <Text style={styles.buttonText}>
         {children}
         {children && '    '}
