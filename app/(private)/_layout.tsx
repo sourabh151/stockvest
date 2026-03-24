@@ -8,7 +8,7 @@ import { View, StyleSheet } from 'react-native'
 const RootLayout = () => {
   return (
     <Tabs
-      initialRouteName='index'
+      initialRouteName='home'
       screenOptions={{
         header(props) {
           return <View style={
