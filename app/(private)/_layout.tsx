@@ -31,7 +31,7 @@ const RootLayout = () => {
           borderTopWidth: 0,
         },
       }} >
-      <Tabs.Screen name='index' options={{ tabBarIcon: ({ focused }) => <MaterialCommunityIcons name={'home-variant-outline'} style={[styles.icon, focused ? styles.focused : {}]} /> }} />
+      <Tabs.Screen name='home' options={{ tabBarIcon: ({ focused }) => <MaterialCommunityIcons name={'home-variant-outline'} style={[styles.icon, focused ? styles.focused : {}]} /> }} />
       <Tabs.Screen name='Portfolio' options={{ tabBarIcon: ({ focused }) => <MaterialCommunityIcons name={'star-outline'} style={[styles.icon, focused ? styles.focused : {}]} /> }} />
       <Tabs.Screen name='Profile' options={{ tabBarIcon: ({ focused }) => <MaterialCommunityIcons name={'chart-pie-outline'} style={[styles.icon, focused ? styles.focused : {}]} /> }} />
       <Tabs.Screen name='Transactions' options={{ tabBarIcon: ({ focused }) => <MaterialCommunityIcons name={'clipboard-text-outline'} style={[styles.icon, focused ? styles.focused : {}]} /> }} />
