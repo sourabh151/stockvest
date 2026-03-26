@@ -1,27 +1,14 @@
-import StockvestHeader from '@/components/StockvestHeader'
 import { Colors } from '@/constants/colors'
 import { typography } from '@/constants/typography'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { Tabs } from 'expo-router'
-import { View, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 const RootLayout = () => {
   return (
     <Tabs
       initialRouteName='home'
       screenOptions={{
-        header(props) {
-          return <View style={
-            {
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: Colors.bgPrimary
-            }
-          }>
-            <StockvestHeader />
-          </View>
-        },
         tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: Colors.bgPrimary,
@@ -30,6 +17,7 @@ const RootLayout = () => {
           paddingBottom: typography.size.sm,
           borderTopWidth: 0,
         },
+        headerShown: false
       }} >
       <Tabs.Screen name='home' options={{ tabBarIcon: ({ focused }) => <MaterialCommunityIcons name={'home-variant-outline'} style={[styles.icon, focused ? styles.focused : {}]} /> }} />
       <Tabs.Screen name='Portfolio' options={{ tabBarIcon: ({ focused }) => <MaterialCommunityIcons name={'star-outline'} style={[styles.icon, focused ? styles.focused : {}]} /> }} />

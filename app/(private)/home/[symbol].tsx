@@ -3,7 +3,9 @@ import { View, Text } from 'react-native'
 const StockDetails = () => {
   return (
     <View>
-      <Text></Text>
+      <Text>
+        hello
+      </Text>
     </View>
   )
 }

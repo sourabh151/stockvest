@@ -24,8 +24,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.bgPrimary,
     paddingVertical: typography.size.lg,
-    flex: 1,
-    paddingTop: typography.size.xxxl
   },
   logo: {
     color: Colors.textDark,

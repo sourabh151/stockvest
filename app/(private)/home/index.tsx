@@ -1,63 +1,43 @@
 import { Colors } from '@/constants/colors'
-import { View, StyleSheet, TextInput, ScrollView, Text } from 'react-native'
-import { LineChart } from 'react-native-gifted-charts'
-import { data } from '@/data'
+import { View, StyleSheet, TextInput, FlatList } from 'react-native'
 import { typography } from '@/constants/typography'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { useState, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import stockData from '@/assets/without_logo.min.json'
+import StockItem from '@/components/StockItem'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import StockvestHeader from '@/components/StockvestHeader'
 
-type resultType = {
-  name: string,
-  symbol: string
-}
 const Home = () => {
   const [search, setSearch] = useState('');
-  let result: resultType[] = []
-  useEffect(() => {
-    if (search) {
-      const reg = new RegExp('$' + search, 'i')
-      result = stockData.filter((v) => {
-        return reg.test(v.name) || reg.test(v.symbol)
-      })
-      console.log(result);
 
-    }
-    return () => {
-      return
-    }
-  }, [search])
+  const result = useMemo(() => {
+    if (!search) return [];
+    const reg = new RegExp('^' + search, 'i');
+    return stockData.filter((v) => reg.test(v.name) || reg.test(v.symbol));
+  }, [search]);
 
   return (
-    <View style={styles.container}>
-      <TextInput style={styles.searchBar} onChangeText={setSearch}>
-        <MaterialCommunityIcons name='magnify-plus-outline' style={styles.magnify} />
-      </TextInput>
-      <LineChart
-        data={data}
-        yAxisThickness={0}
-        xAxisThickness={0}
-        hideYAxisText={true}
-        hideAxesAndRules
-        hideDataPoints
-        curved
-        curvature={0.05}
-        startFillColor={Colors.loss}
-        endFillColor={Colors.loss}
-        startOpacity={0.25}
-        endOpacity={0}
-        areaChart
-        color={Colors.loss}
-        spacing={5}
-        initialSpacing={0}
-        endSpacing={0}
+    <SafeAreaView style={styles.container}>
+      <StockvestHeader />
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchBar}
+          onChangeText={setSearch}
+          value={search}
+          placeholder="Search stocks..."
+        />
+        <MaterialCommunityIcons name='magnify-remove-outline' style={styles.magnify} />
+      </View>
+      <FlatList
+        data={result}
+        renderItem={({ item }) =>
+          <StockItem {...item} />
+        }
+        contentContainerStyle={{ paddingVertical: typography.size.xs }}
+        showsVerticalScrollIndicator={false}
       />
-      <ScrollView>
-        {result.map((v) => {
-          return <Text key={v.symbol}>{v.name}</Text>
-        })}
-      </ScrollView>
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -71,13 +51,49 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.bgSecondary,
     borderRadius: 6,
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingVertical: 10,
+    color: Colors.textLight,
+    marginTop: 10,
+    paddingLeft: 46,
+    fontSize: 20
+  },
+  resultItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    gap: 10,
+  },
+  searchContainer: {
+    position: 'relative',
+    marginBottom: typography.size.xs
   },
   magnify: {
     fontSize: typography.size.xxxl,
-    color: Colors.textLight
+    color: Colors.textLight,
+    position: 'absolute',
+    top: 14,
+    left: 10
   }
 });
 
 export default Home
 
+// <LineChart
+//   data={data}
+//   yAxisThickness={0}
+//   xAxisThickness={0}
+//   hideYAxisText={true}
+//   hideAxesAndRules
+//   hideDataPoints
+//   curved
+//   curvature={0.05}
+//   startFillColor={Colors.loss}
+//   endFillColor={Colors.loss}
+//   startOpacity={0.25}
+//   endOpacity={0}
+//   areaChart
+//   color={Colors.loss}
+//   spacing={5}
+//   initialSpacing={0}
+//   endSpacing={0}
+// />
