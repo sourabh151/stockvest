@@ -1,14 +1,16 @@
 import { Colors } from '@/constants/colors'
 import { typography } from '@/constants/typography'
 import { useRouter } from 'expo-router'
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { Image } from 'expo-image'
 
 type StockItemProps = {
   name: string,
-  symbol: string
+  symbol: string,
+  blurhash: string
 }
 
-const StockItem = ({ name, symbol }: StockItemProps) => {
+const StockItem = ({ name, symbol, blurhash }: StockItemProps) => {
   const router = useRouter()
   const handlePress = () => {
     router.push(`(private)/home/${symbol}`)
@@ -18,6 +20,7 @@ const StockItem = ({ name, symbol }: StockItemProps) => {
       <Image
         source={{ uri: `${process.env.EXPO_PUBLIC_LOGO_URL}${symbol}.png` }}
         style={styles.logo}
+        placeholder={{ blurhash }}
       />
       <View style={styles.text}>
         <Text style={styles.title}>{symbol}</Text>

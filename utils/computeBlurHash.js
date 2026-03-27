@@ -6,6 +6,7 @@ const { encode } = require('blurhash');
 
 const INPUT_FILE = path.join(__dirname, '../assets/without_logo.min.json');
 const OUTPUT_FILE = path.join(__dirname, '../assets/withLogoBlurHash.min.json');
+const OUTPUT_FILE2 = path.join(__dirname, '../assets/withLogoBlurHash2.min.json');
 const LOGO_URL_PREFIX = 'https://cdn.jsdelivr.net/gh/ahmeterenodaci/New-York-Stock-Exchange--NYSE--including-Symbols-and-Logos/logos/_';
 const CONCURRENCY_LIMIT = 10;
 
@@ -29,31 +30,34 @@ async function getBlurHash(symbol) {
   }
 }
 
+
 async function main() {
   console.log('Reading input file...');
-  const data = JSON.parse(fs.readFileSync(INPUT_FILE, 'utf8'));
+  const data = JSON.parse(fs.readFileSync(OUTPUT_FILE, 'utf8'));
   const total = data.length;
   const results = [];
-  
+
   console.log(`Processing ${total} items with concurrency limit ${CONCURRENCY_LIMIT}...`);
 
-  for (let i = 0; i < total; i += CONCURRENCY_LIMIT) {
-    const batch = data.slice(i, i + CONCURRENCY_LIMIT);
-    const promises = batch.map(async (item) => {
-      const blurhash = await getBlurHash(item.symbol);
-      return { ...item, blurhash };
-    });
+  for (let i = 0; i < total; i += 1) {
+    // const batch = data.slice(i, i + CONCURRENCY_LIMIT);
+    // const promises = batch.map(async (item) => {
+    if (!data[i].blurhash) {
+      data[i].blurhash = await getBlurHash(data[i].symbol);
+    }
+    // return { ...item, blurhash };
+    // });
 
-    const batchResults = await Promise.all(promises);
-    results.push(...batchResults);
-    
-    if (i % 100 === 0 || i + CONCURRENCY_LIMIT >= total) {
-        console.log(`Processed ${Math.min(i + CONCURRENCY_LIMIT, total)} / ${total} items...`);
+    // const batchResults = await Promise.all(promises);
+    // results.push(...batchResults);
+
+    if (i % 100 === 0 || i + 1 === total) {
+      console.log(`Processed ${Math.min(i + CONCURRENCY_LIMIT, total)} / ${total} items...`);
     }
   }
 
   console.log('Writing output file...');
-  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(results, null, 2));
+  fs.writeFileSync(OUTPUT_FILE2, JSON.stringify(data, null, 2));
   console.log(`Done! Output saved to ${OUTPUT_FILE}`);
 }
 
