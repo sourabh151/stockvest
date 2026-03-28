@@ -1,0 +1,92 @@
+import { lineDataItem } from "react-native-gifted-charts";
+
+// export interface UnifiedBar {
+//   time: string;
+//   price: number;
+// }
+// export type iexTimeframes = '1min'|'5min'|'15min'|'30min'|'1hour'|'2hour'|'4hour'
+// export type dailyTimeframes = 'daily'|'weekly'|'monthly'|'annually'
+// export type timeframes = iexTimeframes | dailyTimeframes
+// 1. Define the arrays (the runtime values)
+export const iexValues = ['1min', '5min', '15min', '30min', '1hour', '2hour', '4hour'] as const;
+export const dailyValues = ['daily', 'weekly', 'monthly', 'annually'] as const;
+
+// 2. Derive the types from the arrays
+export type iexTimeframes = typeof iexValues[number];
+export type dailyTimeframes = typeof dailyValues[number];
+export type timeframes = iexTimeframes | dailyTimeframes;
+// This function returns a boolean AND tells TS the specific type
+export function isIexTimeframe(timeframe: string): timeframe is iexTimeframes {
+  return iexValues.includes(timeframe as iexTimeframes);
+}
+
+export function isDailyTimeframe(timeframe: string): timeframe is dailyTimeframes {
+  return dailyValues.includes(timeframe as dailyTimeframes);
+}
+const getTiingoDate = (daysAgo = 0) => {
+  const date = new Date();
+  // Subtract days if needed
+  date.setDate(date.getDate() - daysAgo);
+
+  return date.toISOString().split('T')[0];
+};
+const timeframeDayCorrespondence = {
+  daily: 1,
+  weekly: 7,
+  monthly: 30,
+  annually: 365,
+}
+
+
+
+
+
+const normalizeTiingoData = (data: any[], isIntraday: boolean): lineDataItem[] => {
+  return data.map(item => ({
+    // IEX dates look like "2026-03-27T14:30:00.000Z"
+    // Daily dates look like "2026-03-27T00:00:00.000Z"
+    label: item.date,
+
+    // For Monthly, we want Adjusted Close to account for splits/dividends
+    value: isIntraday ? item.close : item.adjClose,
+  }));
+};
+const getApiUrl = (symbol: string, timeframe: timeframes, options?: stockDateOptions) => {
+  const token = process.env.EXPO_PUBLIC_tiingo_api;
+
+  if (isDailyTimeframe(timeframe)) {
+    // Use the Daily endpoint for monthly resampling
+    let url = `https://api.tiingo.com/tiingo/daily/${symbol}/prices?resampleFreq=${timeframe}&token=${token}`;
+    if (options?.startDate) {
+      url += `&startDate=${options.startDate}`
+    }
+    else {
+      url += `&startDate=${getTiingoDate(timeframeDayCorrespondence[timeframe] * 200)}`
+    }
+    if (options?.endDate) {
+      url += `&endDate=${options.endDate}`
+    }
+    else {
+      url += `&endDate=${getTiingoDate()}`
+    }
+    return url
+  }
+  else {
+    // Use the IEX endpoint for intraday (e.g., 5min)
+    return `https://api.tiingo.com/iex/${symbol}/prices?resampleFreq=${timeframe}&token=${token}`;
+  }
+};
+type stockDateOptions = {
+  startDate?: string,
+  endDate?: string
+}
+export const fetchStockData = async (symbol: string, timeframe: timeframes, options?: stockDateOptions) => {
+  const url = getApiUrl(symbol, timeframe, options)
+  const response = await fetch(url)
+  const data = await response.json();
+  let isIntraday = false;
+  if (isIexTimeframe(timeframe)) {
+    isIntraday = true;
+  }
+  return normalizeTiingoData(data, isIntraday)
+}

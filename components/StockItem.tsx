@@ -13,7 +13,10 @@ type StockItemProps = {
 const StockItem = ({ name, symbol, blurhash }: StockItemProps) => {
   const router = useRouter()
   const handlePress = () => {
-    router.push(`(private)/home/${symbol}`)
+    router.push({
+      pathname: '/(private)/home/[symbol]',
+      params: { symbol, name, blurhash }
+    })
   }
   return (
     <TouchableOpacity key={symbol} style={styles.resultItem} onPress={handlePress}>
