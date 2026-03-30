@@ -16,7 +16,7 @@ const RootLayout = () => {
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',
-              backgroundColor: Colors.bgPrimary
+              backgroundColor: Colors.bgPrimary,
             }
           }>
             {props.back ? <MaterialIcons name='chevron-left' style={{
@@ -24,10 +24,12 @@ const RootLayout = () => {
               backgroundColor: Colors.bgPrimary,
               fontSize: typography.size.xxxl,
               paddingHorizontal: typography.size.lg,
-              paddingTop: typography.size.xxl
+              paddingTop: typography.size.xxl,
             }}
               onPress={() => props.navigation.pop()} /> : <></>}
-            <StockvestHeader />
+            <StockvestHeader style={{
+              marginTop: typography.size.lg,
+            }} />
           </View>
         },
       }} >

@@ -36,6 +36,7 @@ const Home = () => {
         }
         contentContainerStyle={{ paddingVertical: typography.size.xs }}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps={'handled'}
       />
     </SafeAreaView>
   )

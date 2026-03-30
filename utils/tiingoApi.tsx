@@ -1,3 +1,5 @@
+import { sample } from "@/data";
+import { View } from "react-native";
 import { lineDataItem } from "react-native-gifted-charts";
 
 // export interface UnifiedBar {
@@ -42,14 +44,32 @@ const timeframeDayCorrespondence = {
 
 
 const normalizeTiingoData = (data: any[], isIntraday: boolean): lineDataItem[] => {
-  return data.map(item => ({
-    // IEX dates look like "2026-03-27T14:30:00.000Z"
-    // Daily dates look like "2026-03-27T00:00:00.000Z"
-    label: item.date,
+  if (!Array.isArray(data)) {
+    console.error("normalizeTiingoData expected an array, but received:", data);
+    return [];
+  }
+  let l = data.length;
+  l = Math.floor(l / 5)
+  let d = l;
 
-    // For Monthly, we want Adjusted Close to account for splits/dividends
-    value: isIntraday ? item.close : item.adjClose,
-  }));
+
+  return data.map((item, i) => {
+    let r: lineDataItem = {
+      // IEX dates look like "2026-03-27T14:30:00.000Z"
+      // Daily dates look like "2026-03-27T00:00:00.000Z"
+      // For Monthly, we want Adjusted Close to account for splits/dividends
+      value: isIntraday ? item.close : item.adjClose,
+    }
+    if (i === l) {
+
+      l += d;
+      r.label = new Date(item.date).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short'
+      })
+    }
+    return r;
+  });
 };
 const getApiUrl = (symbol: string, timeframe: timeframes, options?: stockDateOptions) => {
   const token = process.env.EXPO_PUBLIC_tiingo_api;
@@ -82,8 +102,19 @@ type stockDateOptions = {
 }
 export const fetchStockData = async (symbol: string, timeframe: timeframes, options?: stockDateOptions) => {
   const url = getApiUrl(symbol, timeframe, options)
+
   const response = await fetch(url)
-  const data = await response.json();
+  // if (!response.ok) {
+  //   const errorData = await response.json().catch(() => ({}));
+  //   throw new Error(errorData.detail || `Failed to fetch stock data: ${response.statusText}`);
+  // }
+  let data;
+  if (!response.ok) {
+    data = sample
+  }
+  else {
+    data = await response.json();
+  }
   let isIntraday = false;
   if (isIexTimeframe(timeframe)) {
     isIntraday = true;

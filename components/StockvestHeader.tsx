@@ -1,13 +1,13 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ViewProps } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Colors } from '@/constants/colors';
 import { typography } from '@/constants/typography';
 
-const StockvestHeader = () => {
+const StockvestHeader = ({ style }: ViewProps) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.wrapper}>
-        <MaterialIcons style={styles.logo} name={'candlestick-chart'} />
+    <View style={[styles.container, style]}>
+      <MaterialIcons style={styles.logo} name={'candlestick-chart'} />
+      <View>
         <Text style={styles.stockvest}>
           Stockvest
         </Text>
@@ -24,6 +24,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.bgPrimary,
     paddingVertical: typography.size.lg,
+    flexDirection: 'row',
+    gap: typography.size.xs,
   },
   logo: {
     color: Colors.textDark,
@@ -33,6 +35,7 @@ const styles = StyleSheet.create({
   stockvest: {
     fontSize: typography.size.xl,
     fontWeight: typography.weight.medium,
+    position: 'relative',
   },
   circle: {
     width: typography.size.xxl,
@@ -41,13 +44,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.accent,
     position: 'absolute',
     right: 0,
-    bottom: 0,
-    zIndex: -1
+    zIndex: -1,
   },
   wrapper: {
     display: 'flex',
-    flexDirection: 'row',
-    gap: typography.size.xs,
   }
 });
 

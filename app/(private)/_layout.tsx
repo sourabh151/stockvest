@@ -2,6 +2,7 @@ import { Colors } from '@/constants/colors'
 import { typography } from '@/constants/typography'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { Tabs } from 'expo-router'
+import * as sql from 'expo-sqlite'
 import { StyleSheet } from 'react-native'
 
 const RootLayout = () => {
