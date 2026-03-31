@@ -5,4 +5,16 @@ export const generateUUID = () => {
     return v.toString(16);
   });
 };
-
+export const listToUUID = (list: string[]) => {
+  return list.map((v) => ({
+    item: v,
+    UUID: generateUUID()
+  }))
+}
+export const UUIDToItem = (UUID: string, list: ReturnType<typeof listToUUID>) => {
+  const r = list.find((v) => v.UUID === UUID)?.item
+  if (r)
+    return r;
+  else
+    return ''
+}

@@ -43,7 +43,7 @@ async function migrateDBIfNeeded(db: SQLiteDatabase) {
     return
   if (user_version === 0) {
     await db.execAsync(`PRAGMA journal_mode="wal";
-CREATE TABLE IF NOT EXISTS watchlists (
+CREATE TABLE IF NOT EXISTS watchlist (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     symbol TEXT NOT NULL UNIQUE,
     name TEXT NOT NULL,

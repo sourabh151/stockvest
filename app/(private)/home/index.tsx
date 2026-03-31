@@ -2,24 +2,44 @@ import { Colors } from '@/constants/colors'
 import { View, StyleSheet, TextInput, FlatList } from 'react-native'
 import { typography } from '@/constants/typography'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import stockData from '@/assets/withLogoBlurHash.min.json'
 import StockItem from '@/components/StockItem'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSQLiteContext } from 'expo-sqlite'
 import StockvestHeader from '@/components/StockvestHeader'
+import PillContainer from '@/components/PillContainer'
+import { listToUUID, UUIDToItem } from '@/utils/UUID'
+const stockFilters = ['Trending', 'Top Gainers', 'Top Losers', 'Most Active', 'Watchlist']
 
 const Home = () => {
   const db = useSQLiteContext();
 
   const [search, setSearch] = useState('');
-  const [pill, setPill] = useState<string | null>(null)
+  const [pill, setPill] = useState<string>('')
+  const [filteredList, setFilteredList] = useState<typeof stockData>([])
+  const list = useRef(listToUUID(stockFilters))
 
   const result = useMemo(() => {
     if (!search) return [];
-    const reg = new RegExp('^' + search, 'i');
+    const reg = new RegExp(search, 'i');
     return stockData.filter((v) => reg.test(v.name) || reg.test(v.symbol));
   }, [search]);
+
+
+  useEffect(() => {
+    const runFilterUpdate = async () => {
+      const stockFilter = UUIDToItem(pill, list.current)
+      switch (stockFilter) {
+        case 'Watchlist':
+          setFilteredList(await db.getAllAsync<typeof stockData[number]>('SELECT * from watchlist'))
+          break;
+        default:
+          break;
+      }
+    }
+    runFilterUpdate()
+  }, [pill, db])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,7 +53,7 @@ const Home = () => {
         />
         <MaterialCommunityIcons name='magnify-remove-outline' style={styles.magnify} />
       </View>
-      <FlatList
+      {search && <FlatList
         data={result}
         renderItem={({ item }) =>
           <StockItem {...item} />
@@ -41,7 +61,21 @@ const Home = () => {
         contentContainerStyle={{ paddingVertical: typography.size.xs }}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps={'handled'}
-      />
+      />}
+      {!search && <View>
+        <PillContainer pill={pill} setPill={setPill} list={list.current}
+
+        />
+        <FlatList
+          data={filteredList}
+          renderItem={({ item }) =>
+            <StockItem {...item} />
+          }
+          contentContainerStyle={{ paddingVertical: typography.size.xs }}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps={'handled'}
+        />
+      </View>}
     </SafeAreaView>
   )
 }

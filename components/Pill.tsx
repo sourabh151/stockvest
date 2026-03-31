@@ -1,24 +1,43 @@
-import { FC } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native'
+import { FC, Dispatch, SetStateAction } from 'react';
+import { Text, StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native'
+import { Colors } from '@/constants/colors';
+import { typography } from '@/constants/typography';
 
 interface PillProps extends TouchableOpacityProps {
-  togglePill: (pillId: string) => null,
+  setPill: Dispatch<SetStateAction<string>>,
   pillId: string,
-  activePillId: string,
+  activePill: string,
   text: string
 }
 
-const Pill: FC<PillProps> = ({ togglePill, pillId, activePillId, text }) => {
-  const isActive = activePillId === pillId
+const Pill: FC<PillProps> = ({ setPill, pillId, activePill, text }) => {
+  const isActive = activePill === pillId
+
   return (
-    <TouchableOpacity onPress={() => togglePill(pillId)}>
-      <Text>{text}</Text>
+    <TouchableOpacity onPress={() => setPill(pillId)} style={[styles.Button, isActive && styles.activeButton]}>
+      <Text style={[styles.buttonLabel, isActive && styles.activeButtonLabel]}>{text}</Text>
     </TouchableOpacity>
   )
 }
 const styles = StyleSheet.create({
   container: {
 
+  },
+  Button: {
+    paddingInline: 8,
+    borderRadius: 8,
+    paddingVertical: 4
+  },
+  activeButton: {
+    backgroundColor: Colors.textDark
+  },
+  buttonLabel: {
+    color: Colors.textDark,
+    fontSize: typography.size.xs,
+    fontWeight: typography.weight.bold
+  },
+  activeButtonLabel: {
+    color: Colors.bgPrimary
   },
 });
 
