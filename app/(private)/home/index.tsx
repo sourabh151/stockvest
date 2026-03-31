@@ -6,10 +6,14 @@ import { useState, useMemo } from 'react'
 import stockData from '@/assets/withLogoBlurHash.min.json'
 import StockItem from '@/components/StockItem'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useSQLiteContext } from 'expo-sqlite'
 import StockvestHeader from '@/components/StockvestHeader'
 
 const Home = () => {
+  const db = useSQLiteContext();
+
   const [search, setSearch] = useState('');
+  const [pill, setPill] = useState<string | null>(null)
 
   const result = useMemo(() => {
     if (!search) return [];
