@@ -2,7 +2,7 @@ import { Colors } from '@/constants/colors'
 import { View, StyleSheet, TextInput, FlatList } from 'react-native'
 import { typography } from '@/constants/typography'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { useState, useMemo, useRef, useEffect } from 'react'
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import stockData from '@/assets/withLogoBlurHash.min.json'
 import StockItem from '@/components/StockItem'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -10,6 +10,7 @@ import { useSQLiteContext } from 'expo-sqlite'
 import StockvestHeader from '@/components/StockvestHeader'
 import PillContainer from '@/components/PillContainer'
 import { listToUUID, UUIDToItem } from '@/utils/UUID'
+import { useFocusEffect } from '@react-navigation/native'
 const stockFilters = ['Trending', 'Top Gainers', 'Top Losers', 'Most Active', 'Watchlist']
 
 const Home = () => {
@@ -18,26 +19,37 @@ const Home = () => {
   const [search, setSearch] = useState('');
   const [pill, setPill] = useState<string>('')
   const [filteredList, setFilteredList] = useState<typeof stockData>([])
+
+  const runFilterUpdate = async () => {
+    const stockFilter = UUIDToItem(pill, list.current)
+    switch (stockFilter) {
+      case 'Watchlist':
+        setFilteredList(await db.getAllAsync<typeof stockData[number]>('SELECT * from watchlist'))
+        break;
+      default:
+        break;
+    }
+  }
   const list = useRef(listToUUID(stockFilters))
 
   const result = useMemo(() => {
-    if (!search) return [];
+    if (!search) {
+      runFilterUpdate()
+      return [];
+    }
     const reg = new RegExp(search, 'i');
     return stockData.filter((v) => reg.test(v.name) || reg.test(v.symbol));
-  }, [search]);
+  }, [search, runFilterUpdate]);
 
+
+
+  useFocusEffect(
+    useCallback(() => {
+      runFilterUpdate();
+    }, [pill, db])
+  );
 
   useEffect(() => {
-    const runFilterUpdate = async () => {
-      const stockFilter = UUIDToItem(pill, list.current)
-      switch (stockFilter) {
-        case 'Watchlist':
-          setFilteredList(await db.getAllAsync<typeof stockData[number]>('SELECT * from watchlist'))
-          break;
-        default:
-          break;
-      }
-    }
     runFilterUpdate()
   }, [pill, db])
 
@@ -135,4 +147,5 @@ export default Home
 //   spacing={5}
 //   initialSpacing={0}
 //   endSpacing={0}
+// />
 // />

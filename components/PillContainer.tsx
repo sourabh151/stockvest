@@ -1,6 +1,6 @@
 import { listToUUID } from '@/utils/UUID';
 import { FC, SetStateAction, Dispatch, useEffect } from 'react';
-import { View, StyleSheet, ViewProps } from 'react-native'
+import { StyleSheet, ViewProps, ScrollView } from 'react-native'
 import Pill from './Pill';
 interface PillContainerProps extends ViewProps {
   pill: string,
@@ -15,20 +15,20 @@ const PillContainer: FC<PillContainerProps> = ({ list, setPill, pill }) => {
     }
   })
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}
+      horizontal
+      showsHorizontalScrollIndicator={false}>
       {
         list.map(({ item, UUID }) => {
           return <Pill key={UUID} setPill={setPill} activePill={pill} pillId={UUID} text={item} />
         })
       }
-    </View>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
     marginTop: 20
   },
 });

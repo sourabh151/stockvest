@@ -10,7 +10,7 @@ import { Image } from 'expo-image';
 import { dailyValues, fetchStockData, timeframes } from '@/utils/tiingoApi';
 import { useQuery } from '@tanstack/react-query';
 import { LineChart, lineDataItem } from 'react-native-gifted-charts';
-import * as sql from 'expo-sqlite'
+import { useSQLiteContext } from 'expo-sqlite'
 
 type StockParams = {
   symbol: string,
@@ -19,6 +19,7 @@ type StockParams = {
 }
 
 const StockDetails = () => {
+  const db = useSQLiteContext()
   const [favourite, setFavourite] = useState(false)
   const { name, symbol, blurhash } = useLocalSearchParams<StockParams>()
   const [timeframe, setTimeframe] = useState<timeframes>('daily');
@@ -33,7 +34,6 @@ const StockDetails = () => {
   const sections = 5;
 
   useEffect(() => {
-
     if (data && data.length > 0) {
       const t = data.length - 1
       const t2 = t - 1
@@ -54,8 +54,20 @@ const StockDetails = () => {
           setAreaColor(Colors.profit)
       }
     }
-
+    if (db.getFirstSync('SELECT * FROM watchlist WHERE symbol = ?', symbol)) {
+      setFavourite(true)
+    }
   }, [data])
+  const handleFavouriteToggle = async () => {
+
+    setFavourite(!favourite);
+    if (favourite) {
+      await db.runAsync(`DELETE FROM watchlist WHERE symbol = ?`, symbol)
+    }
+    else {
+      await db.runAsync(`INSERT INTO watchlist (symbol,name,blurhash) VALUES (?,?,?)`, symbol, name, blurhash)
+    }
+  }
 
 
 
@@ -69,7 +81,7 @@ const StockDetails = () => {
         </TouchableOpacity>
         <View style={styles.right} >
           <MaterialIcons name='punch-clock' style={[styles.logo, styles.clock]} />
-          <TouchableOpacity onPress={() => setFavourite(!favourite)}>
+          <TouchableOpacity onPress={() => handleFavouriteToggle()}>
             <MaterialIcons name='star' style={[styles.logo, favourite ? styles.favourite : styles.star]} />
           </TouchableOpacity>
         </View>
