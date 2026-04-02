@@ -29,7 +29,8 @@ const PillContainer: FC<PillContainerProps> = ({ list, setPill, pill }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20
+    gap: 10,
+    marginVertical: 10
   },
 });
 

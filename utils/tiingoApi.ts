@@ -33,17 +33,17 @@ const getTiingoDate = (daysAgo = 0) => {
   return date.toISOString().split('T')[0];
 };
 const timeframeDayCorrespondence = {
-  daily: 1,
-  weekly: 7,
-  monthly: 30,
-  annually: 365,
+  daily: 200,
+  weekly: 1400,
+  monthly: 1461,
+  annually: 3653,
 }
 
 
 
 
 
-const normalizeTiingoData = (data: any[], isIntraday: boolean): lineDataItem[] => {
+const normalizeTiingoData = (data: any[], isIntraday: boolean, timeframe: timeframes): lineDataItem[] => {
   if (!Array.isArray(data)) {
     console.error("normalizeTiingoData expected an array, but received:", data);
     return [];
@@ -63,10 +63,18 @@ const normalizeTiingoData = (data: any[], isIntraday: boolean): lineDataItem[] =
     if (i === l) {
 
       l += d;
-      r.label = new Date(item.date).toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'short'
-      })
+      if (timeframe === 'monthly' || timeframe === 'annually') {
+        r.label = new Date(item.date).toLocaleDateString('en-GB', {
+          month: 'short',
+          year: '2-digit'
+        })
+      }
+      else {
+        r.label = new Date(item.date).toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'short'
+        })
+      }
     }
     return r;
   });
@@ -81,7 +89,7 @@ const getApiUrl = (symbol: string, timeframe: timeframes, options?: stockDateOpt
       url += `&startDate=${options.startDate}`
     }
     else {
-      url += `&startDate=${getTiingoDate(timeframeDayCorrespondence[timeframe] * 200)}`
+      url += `&startDate=${getTiingoDate(timeframeDayCorrespondence[timeframe])}`
     }
     if (options?.endDate) {
       url += `&endDate=${options.endDate}`
@@ -119,5 +127,5 @@ export const fetchStockData = async (symbol: string, timeframe: timeframes, opti
   if (isIexTimeframe(timeframe)) {
     isIntraday = true;
   }
-  return normalizeTiingoData(data, isIntraday)
+  return normalizeTiingoData(data, isIntraday, timeframe)
 }

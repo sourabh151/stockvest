@@ -18,6 +18,9 @@ const StockItem = ({ name, symbol, blurhash }: StockItemProps) => {
       params: { symbol, name, blurhash }
     })
   }
+  if (name.length > 30) {
+    name = name.slice(0, 30) + '...'
+  }
   return (
     <TouchableOpacity key={symbol} style={styles.resultItem} onPress={handlePress}>
       <Image

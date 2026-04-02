@@ -11,47 +11,48 @@ import StockvestHeader from '@/components/StockvestHeader'
 import PillContainer from '@/components/PillContainer'
 import { listToUUID, UUIDToItem } from '@/utils/UUID'
 import { useFocusEffect } from '@react-navigation/native'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 const stockFilters = ['Trending', 'Top Gainers', 'Top Losers', 'Most Active', 'Watchlist']
 
 const Home = () => {
   const db = useSQLiteContext();
-
+  const tabBarHeight = useBottomTabBarHeight();
   const [search, setSearch] = useState('');
   const [pill, setPill] = useState<string>('')
   const [filteredList, setFilteredList] = useState<typeof stockData>([])
 
-  const runFilterUpdate = async () => {
+  const runFilterUpdate = useCallback(async () => {
     const stockFilter = UUIDToItem(pill, list.current)
     switch (stockFilter) {
       case 'Watchlist':
         setFilteredList(await db.getAllAsync<typeof stockData[number]>('SELECT * from watchlist'))
         break;
       default:
+        setFilteredList(stockData.filter(() => (Math.random() <= (0.01))))
         break;
     }
-  }
+  }, [pill, db])
   const list = useRef(listToUUID(stockFilters))
 
   const result = useMemo(() => {
     if (!search) {
-      runFilterUpdate()
       return [];
     }
     const reg = new RegExp(search, 'i');
     return stockData.filter((v) => reg.test(v.name) || reg.test(v.symbol));
-  }, [search, runFilterUpdate]);
+  }, [search]);
 
 
 
   useFocusEffect(
     useCallback(() => {
       runFilterUpdate();
-    }, [pill, db])
+    }, [runFilterUpdate])
   );
 
   useEffect(() => {
     runFilterUpdate()
-  }, [pill, db])
+  }, [runFilterUpdate])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -63,7 +64,7 @@ const Home = () => {
           value={search}
           placeholder="Search stocks..."
         />
-        <MaterialCommunityIcons name='magnify-remove-outline' style={styles.magnify} />
+        <MaterialCommunityIcons name='magnify-plus-cursor' style={styles.magnify} />
       </View>
       {search && <FlatList
         data={result}
@@ -83,7 +84,7 @@ const Home = () => {
           renderItem={({ item }) =>
             <StockItem {...item} />
           }
-          contentContainerStyle={{ paddingVertical: typography.size.xs }}
+          contentContainerStyle={{ paddingTop: typography.size.xs, paddingBottom: tabBarHeight }}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps={'handled'}
         />
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     color: Colors.textLight,
     marginTop: 10,
-    paddingLeft: 46,
+    paddingLeft: 50,
     fontSize: 20
   },
   resultItem: {
@@ -120,10 +121,10 @@ const styles = StyleSheet.create({
   },
   magnify: {
     fontSize: typography.size.xxxl,
-    color: Colors.textLight,
+    color: Colors.textDark,
     position: 'absolute',
     top: 14,
-    left: 10
+    left: 8
   }
 });
 

@@ -20,24 +20,22 @@ const Pill: FC<PillProps> = ({ setPill, pillId, activePill, text }) => {
   )
 }
 const styles = StyleSheet.create({
-  container: {
-
-  },
   Button: {
-    paddingInline: 8,
-    borderRadius: 8,
-    paddingVertical: 4
+    paddingHorizontal: 12,
+    paddingVertical: 8, // Increased paddingVertical
+    borderRadius: 20, // More rounded for a pill shape
+    backgroundColor: Colors.bgSecondary, // Default inactive background
   },
   activeButton: {
-    backgroundColor: Colors.textDark
+    backgroundColor: Colors.accent, // Active background
   },
   buttonLabel: {
-    color: Colors.textDark,
-    fontSize: typography.size.xs,
-    fontWeight: typography.weight.bold
+    color: Colors.textDark, // Default inactive text color
+    fontSize: typography.size.sm, // Slightly larger font
+    fontWeight: typography.weight.semiBold, // Semi-bold for good readability
   },
   activeButtonLabel: {
-    color: Colors.bgPrimary
+    color: Colors.textDark, // Text color remains dark for contrast on accent background
   },
 });
 
