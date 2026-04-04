@@ -11,6 +11,7 @@ import { dailyValues, fetchStockData, timeframes } from '@/utils/tiingoApi';
 import { useQuery } from '@tanstack/react-query';
 import { LineChart, lineDataItem } from 'react-native-gifted-charts';
 import { useSQLiteContext } from 'expo-sqlite'
+import TransactionButton from '@/components/TransactionButton';
 
 type StockParams = {
   symbol: string,
@@ -25,6 +26,7 @@ const StockDetails = () => {
   const [timeframe, setTimeframe] = useState<timeframes>('daily');
   const [areaColor, setAreaColor] = useState(Colors.profit)
   const [delta, setDelta] = useState<{ valueDelta: number, percentDelta: number, deltaColor: string }>({ percentDelta: 0, valueDelta: 0, deltaColor: Colors.profit })
+  const [chartHeight, setChartHeight] = useState(176);
   let deltaColor = Colors.profit;
   const { data, isError, isLoading, error } = useQuery({
     queryKey: [symbol, timeframe],
@@ -71,6 +73,7 @@ const StockDetails = () => {
 
 
 
+
   const router = useRouter()
   return (
     <SafeAreaView style={styles.container}>
@@ -87,7 +90,7 @@ const StockDetails = () => {
         </View>
       </View>
       {/* body */}
-      <View>
+      <View style={{ flex: 1 }}>
         <View key={symbol} style={styles.resultItem}>
           <Image
             source={{ uri: `${process.env.EXPO_PUBLIC_LOGO_URL}${symbol}.png` }}
@@ -99,75 +102,86 @@ const StockDetails = () => {
             <Text style={styles.sub}>{name}</Text>
           </View>
         </View>
-        {isLoading && <Text style={styles.statusText}>Loading chart...</Text>}
-        {isError && <Text style={styles.errorText}>Error loading chart: {error?.message}</Text>}
-        {data && data.length > 0 && <View>
-          <View style={styles.deltaContainer}>
-            <Text style={[styles.price, { color: delta.deltaColor }]}>{data[data.length - 1].value?.toFixed(0)}</Text>
-            <Text style={[styles.percentDelta, { color: delta.deltaColor }]}>{`${delta.valueDelta}(${delta.percentDelta})`}</Text>
-          </View>
-          <LineChart
-            xAxisLabelTextStyle={{ width: 50, transform: [{ translateX: '-50%' }] }}
-            data={data}
-            hideDataPoints
-            curved
-            curvature={0.05}
-            startFillColor={areaColor}
-            startOpacity={0.25}
-            endOpacity={0}
-            areaChart
-            color={areaColor}
-            initialSpacing={0}
-            endSpacing={0}
-            noOfSections={sections}
-            adjustToWidth
-            pointerConfig={{
-              pointerStripHeight: 160,
-              pointerStripColor: 'lightgray',
-              pointerStripWidth: 2,
-              pointerColor: 'lightgray',
-              radius: 6,
-              pointerLabelWidth: 100,
-              pointerLabelHeight: 90,
-              activatePointersOnLongPress: true,
-              autoAdjustPointerLabelPosition: true,
-              pointerLabelComponent: (items: lineDataItem[]) => {
-                return (
-                  <View
-                    style={{
-                      height: 90,
-                      width: 100,
-                      justifyContent: 'center',
-                      marginTop: -30,
-                      marginLeft: -80,
-                    }}>
-                    <View style={{ paddingHorizontal: 14, paddingVertical: 6, borderRadius: 16, backgroundColor: 'white' }}>
-                      <Text style={{ fontWeight: 'bold', textAlign: 'center', color: areaColor }}>
-                        {'$' + items[0].value?.toFixed(2)}
-                      </Text>
+        <View style={{ height: chartHeight }}>
+          {isLoading && <Text style={styles.statusText}>Loading chart...</Text>}
+          {isError && <Text style={styles.errorText}>Error loading chart: {error?.message}</Text>}
+          {data && data.length > 0 && <View onLayout={(e) => { setChartHeight(e.nativeEvent.layout.height) }}>
+            <View style={styles.deltaContainer}>
+              <Text style={[styles.price, { color: delta.deltaColor }]}>{data[data.length - 1].value?.toFixed(0)}</Text>
+              <Text style={[styles.percentDelta, { color: delta.deltaColor }]}>{`${delta.valueDelta}(${delta.percentDelta})`}</Text>
+            </View>
+            <LineChart
+              height={100}
+              yAxisThickness={0}
+              xAxisThickness={0}
+              hideRules
+              xAxisLabelTextStyle={{ width: 50, transform: [{ translateX: '-50%' }] }}
+              data={data}
+              hideDataPoints
+              curved
+              curvature={0.05}
+              startFillColor={areaColor}
+              startOpacity={0.25}
+              endOpacity={0}
+              areaChart
+              color={areaColor}
+              initialSpacing={0}
+              endSpacing={20}
+              noOfSections={sections}
+              adjustToWidth
+              pointerConfig={{
+                pointerStripHeight: 160,
+                pointerStripColor: 'lightgray',
+                pointerStripWidth: 2,
+                pointerColor: 'lightgray',
+                radius: 6,
+                pointerLabelWidth: 100,
+                pointerLabelHeight: 90,
+                activatePointersOnLongPress: true,
+                autoAdjustPointerLabelPosition: true,
+                pointerLabelComponent: (items: lineDataItem[]) => {
+                  return (
+                    <View
+                      style={{
+                        height: 90,
+                        width: 100,
+                        justifyContent: 'center',
+                        marginTop: 30,
+                        marginLeft: 10,
+                      }}>
+                      <View style={{ paddingHorizontal: 14, paddingVertical: 6, borderRadius: 16, backgroundColor: 'white' }}>
+                        <Text style={{ fontWeight: 'bold', textAlign: 'center', color: areaColor }}>
+                          {'$' + items[0].value?.toFixed(2)}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
-                );
-              },
-            }}
+                  );
+                },
+              }}
 
-          />
-          <View style={styles.timeframeContainer}>
-            {
-              dailyValues.map((v) => {
-                return <TouchableOpacity
-                  key={v}
-                  onPress={() => setTimeframe(v)}
-                  style={[styles.timeframeButton, timeframe === v && styles.activeTimeframe]}
-                >
-                  <Text style={[styles.timeframeLabel, timeframe === v && styles.activeTimeframeLabel]}>{v.toUpperCase()}</Text>
-                </TouchableOpacity>
-              })
-            }
-          </View>
-        </View>}
+            />
+          </View>}
+        </View>
+        <View style={styles.timeframeContainer}>
+          {
+            dailyValues.map((v) => {
+              return <TouchableOpacity
+                key={v}
+                onPress={() => setTimeframe(v)}
+                style={[styles.timeframeButton, timeframe === v && styles.activeTimeframe]}
+              >
+                <Text style={[styles.timeframeLabel, timeframe === v && styles.activeTimeframeLabel]}>{v.toUpperCase()}</Text>
+              </TouchableOpacity>
+            })
+          }
+        </View>
         {data && data.length === 0 && !isLoading && !isError && <Text style={styles.statusText}>No data available for this timeframe.</Text>}
       </View>
+      <View style={styles.transactionButtons}>
+        <TransactionButton buttonType='Sell' />
+        <TransactionButton buttonType='Buy' />
+      </View>
+
     </SafeAreaView>
   )
 }
@@ -273,6 +287,13 @@ const styles = StyleSheet.create({
   },
   percentDelta: {
 
+  },
+  transactionButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: "center",
+    gap: 10,
+    paddingVertical: 10
   }
 });
 
